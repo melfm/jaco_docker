@@ -12,6 +12,7 @@ RUN export uid=4500 gid=1800 && \
     chmod 0440 /etc/sudoers.d/developer && \
     chown ${uid}:${gid} -R /home/developer
 
+EXPOSE 9030
 
 RUN apt-get update && apt-get install -y \
     python \
@@ -28,7 +29,14 @@ RUN apt-get update && apt-get install -y \
     libosmesa6 \
     libblas-dev \
     liblapack-dev \
-    net-tools 
+    screen \
+    man \
+    net-tools \
+    openssh-client \
+    ssh \ 
+    netcat \ 
+    iputils-ping \
+    rsync 
 
 RUN apt-get install -y \
     ros-melodic-moveit \
@@ -39,6 +47,11 @@ RUN apt-get install -y \
     ros-melodic-ros-controllers \
     ros-melodic-robot-state-publisher
 
+RUN pip install scipy
+RUN pip install ipython
+RUN pip install pid
+RUN pip install numpy
+RUN pip install matplotlib
 
 # Source ROS setup.bash
 RUN /bin/bash -c "source /opt/ros/melodic/setup.bash" 
@@ -58,13 +71,6 @@ RUN cd ~/catkin_ws/src/ \
     && git clone https://github.com/johannah/ros_interface.git \
     && /bin/bash -c '. /opt/ros/melodic/setup.bash; cd ~/catkin_ws; catkin_make'
 
-
-
-RUN pip install scipy
-RUN pip install ipython
-RUN pip install pid
-RUN pip install numpy
-
-
-
+run echo 'source /opt/ros/melodic/setup.bash' >> /root/.bashrc
+run echo 'source ~/catkin_ws/devel/setup.bash' >> /root/.bashrc
 WORKDIR /root/catkin_ws/src

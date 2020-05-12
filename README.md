@@ -34,3 +34,7 @@ machine. In order to connect to the running container use the following command:
 ```
 docker exec -it jaco_robot /bin/bash
 ```
+
+## Notes:
+
+source of ros and catkin dir did not seem to work
