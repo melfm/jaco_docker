@@ -26,7 +26,7 @@ sudo cp udev/10-kinova-arm.rules /etc/udev/rules.d/
 
 * Run the Docker container with access to the USB devices for establishing connection to the robot: 
 ```
-docker run -it --name jaco_robot_robot --privileged -v /dev/bus/usb:/dev/bus/usb  -p 9030:9030 jaco_control_net
+docker run -it --name jaco_robot_net --privileged -v /dev/bus/usb:/dev/bus/usb  -p 9030:9030 jaco_control
 ```
 
 * You can now run the robot from inside the Docker regularly as if you had ROS installed on your 
@@ -34,3 +34,5 @@ machine. In order to connect to the running container use the following command:
 ```
 docker exec -it jaco_robot_net /bin/bash
 ```
+
+* Hint, if docker exec doesn't work, you may need to run docker start on the container id (found with docker ps)
