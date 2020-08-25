@@ -13,6 +13,7 @@ RUN export uid=4500 gid=1800 && \
     chown ${uid}:${gid} -R /home/developer
 
 EXPOSE 9030
+EXPOSE 9031
 
 RUN apt-get update && apt-get install -y \
     python \
