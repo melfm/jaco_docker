@@ -1,0 +1,3 @@
+# Intel RealSense Camera
+SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="8086", ATTR{manufacturer}=="Intel(R) RealSense(TM) Depth Camera 435i", MODE:="666"
+

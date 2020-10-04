@@ -20,7 +20,6 @@ docker build --tag jaco_control .
 * To access the arm via USB copy the udev srule file `10-kinova-arm.rules` from `/udev` to 
 `/etc/udev/rules.d` and then connect the robot to your machine: 
 ```
-# From /jaco_docker
 sudo cp udev/10-kinova-arm.rules /etc/udev/rules.d/
 ```
 
