@@ -13,7 +13,8 @@ docker pull ros:melodic
 * Clone this repo into `~/workspace` and build the docker image:
 ```
 mkdir ~/workspace && cd ~/workspace
-git clone https://github.com/sahandrez/jaco_docker.git
+git clone https://github.com/johannah/jaco_docker.git
+cd jaco_control
 docker build --tag jaco_control .
 ```
 
