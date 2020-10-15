@@ -2,6 +2,12 @@
 
 FROM ros:melodic
 
+# nvidia-container-runtime
+# For running Rviz
+ENV NVIDIA_VISIBLE_DEVICES \
+    ${NVIDIA_VISIBLE_DEVICES:-all}
+ENV NVIDIA_DRIVER_CAPABILITIES \
+    ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics
 
 # Replace 1000 with your user / group id
 RUN export uid=4500 gid=1800 && \
@@ -81,9 +87,6 @@ RUN echo 'source ~/catkin_ws/devel/setup.bash' >> /root/.bashrc
 #### REALSENSE CAMERA
 # Install instructions for realsense camera from https://github.com/IntelRealSense/librealsense/blob/master/doc/distribution_linux.md#installing-the-packages 
 RUN apt-key adv --keyserver keys.gnupg.net --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE ||  apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE
-# NOTE I had to change catkin_ws/src/realsense-ros/realsense2_camera/CMakeLists.txt to use version 2.36.0 of realsense, since that was default. 
-# change find_package(realsense2 2.37.0) to find_package(realsense2 2.36.0)
-# I also had to run sudo apt-get update && sudo apt-get upgrade to get moveit to compile
 RUN add-apt-repository "deb http://realsense-hw-public.s3.amazonaws.com/Debian/apt-repo bionic main" -u
 RUN sudo apt-get install -y \
             librealsense2-dkms \ 
@@ -95,7 +98,7 @@ RUN sudo apt-get install -y \
 
 # install realsense ROS https://github.com/IntelRealSense/realsense-ros
 RUN cd ~/catkin_ws/src/ \
-    && git clone https://github.com/IntelRealSense/realsense-ros.git && cd realsense-ros/ && git checkout `git tag | sort -V | grep -P "^\d+\.\d+\.\d+" | tail -1` 
+    && git clone https://github.com/IntelRealSense/realsense-ros.git && cd realsense-ros/
 
 RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; cd ~/catkin_ws; catkin_make -DCATKIN_ENABLE_TESTING=False -DCMAKE_BUILD_TYPE=Release; catkin_make install'
 
